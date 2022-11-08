@@ -6,7 +6,7 @@ import './GetData_style.css'
 import * as XLSX from 'xlsx';
 
 
-export default function Get_Data() {
+export default function Get_Data_Multisend() {
     const [tokenValue, settokenValue] = useState("")
     const [addressesValue, setaddressesValue] = useState([])
     const [AmountsValue, setAmountsValue] = useState([])
@@ -84,59 +84,50 @@ export default function Get_Data() {
     }
 
 
-    const Submit_data = async () => {
+    // const Submit_data = async () => {
 
-        let acc = await loadWeb3();
-        if (acc == "No Wallet") {
+    //     let acc = await loadWeb3();
+    //     if (acc == "No Wallet") {
 
-        }
-        else if (acc == "Wrong Network") {
+    //     }
+    //     else if (acc == "Wrong Network") {
 
-        } else {
+    //     } else {
 
-            try {
-                setloader(true)
-                // console.log("pathArray", addressesValue, AmountsValue);
+    //         try {
+    //             setloader(true)
+    //             // console.log("pathArray", addressesValue, AmountsValue);
 
-                // let pathArray = addressesValue.split(',');
-                // let Number_Array = AmountsValue.split(',')
-                if (addressesValue.length == AmountsValue.length) {
+    //             // let pathArray = addressesValue.split(',');
+    //             // let Number_Array = AmountsValue.split(',')
+    //             if (addressesValue.length == AmountsValue.length) {
 
-                    const web3 = window.web3;
-                    let contractOf = new web3.eth.Contract(airdrop_ABI, airdrop);
-                    let ownerAdress = await contractOf.methods.owner().call()
-                    if (ownerAdress == acc) {
-                        await contractOf.methods.multisendToken(tokenValue, addressesValue, AmountsValue).send({
-                            from: acc
-                        });
-                        toast.success('Transition Confirm')
-                        setloader(false)
-                    }
-                    else {
-                        toast.error("Owner account does not match")
-                        setloader(false)
-                    }
+    //                 const web3 = window.web3;
+    //                 let contractOf = new web3.eth.Contract(airdrop_ABI, airdrop);
+    //                 await contractOf.methods.multisendToken(tokenValue, addressesValue, AmountsValue).send({
+    //                     from: acc
+    //                 });
+    //                 toast.success('Transition Confirm')
+    //                 setloader(false)
 
 
+    //             } else {
+    //                 toast.error("Array length is not match")
+    //                 setloader(false)
 
-                } else {
-                    toast.error("Array length is not match")
-                    setloader(false)
 
+    //             }
 
-                }
+    //         } catch (e) {
+    //             console.log("Error While data", e);
+    //             setloader(false)
 
-            } catch (e) {
-                console.log("Error While data", e);
-                setloader(false)
-
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 
 
     const multisendTokenwithApprove = async () => {
-        alert(typeof (totalApprovedAmount))
 
         let acc = await loadWeb3();
         if (acc == "No Wallet") {
@@ -215,7 +206,7 @@ export default function Get_Data() {
                 </div>
             </div>
 
-            <div className="container mt-5">
+            {/* <div className="container mt-5">
                 <div className="row">
                     <div className="col-lg-2">
 
@@ -256,11 +247,52 @@ export default function Get_Data() {
 
                     </div>
                 </div>
+            </div> */}
+
+
+
+            <div className="container mt-5">
+                <div className="row">
+                    <div className="col-lg-2">
+
+                    </div>
+
+                    <div className="col-lg-8">
+
+                        <div className="card claim_card">
+                            {/* <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Token address</label>
+                                <input type="text" class="form-control" placeholder="Token address" onChange={(e) => settokenValue(e.target.value)} />
+                            </div> */}
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Addresses</label>
+                                <input type="text" class="form-control" value={addressesValue} placeholder="Addresses Arrays" onChange={(e) => setaddressesValue(e.target.value)} />
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Amounts</label>
+                                <input type="text" class="form-control" value={AmountsValue} placeholder="Amounts Arrays" onChange={(e) => setAmountsValue(e.target.value)} />
+                            </div>
+                            <div class="col-auto">
+                                <button className='claim_btn' onClick={() => multisendTokenwithApprove()}>
+                                    {
+                                        loaderForApprove ? <>
+                                            <div class="spinner-border" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </>
+                                            : "Send"
+
+                                    }
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className="col-lg-2">
+
+                    </div>
+                </div>
             </div>
-
-
-
-
 
 
         </div>
